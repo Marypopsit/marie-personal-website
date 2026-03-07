@@ -46,838 +46,713 @@
             z-index: 9999; transform: translate(-50%, -50%);
         }
         #cursor-dot {
-            width: 4px; height: 4px; background: var(--lime-green); border-radius: 50%;
+            width: 6px; height: 6px; background-color: var(--lime-green);
+            border-radius: 50%; opacity: 0.8;
         }
         #cursor-ring {
-            width: 32px; height: 32px; border: 1px solid var(--lime-green);
-            border-radius: 50%; transition: width 0.3s, height 0.3s, background-color 0.3s;
+            width: 24px; height: 24px; border: 1px solid var(--lime-green);
+            border-radius: 50%; opacity: 0.6;
         }
 
-        /* Main Dashboard Grid */
-        .main-frame {
-            width: calc(100vw - 40px);
-            max-width: 1600px;
-            height: calc(100vh - 40px);
-            border: 1px solid var(--grid-line);
+        /* Container */
+        .container {
             position: relative;
+            width: 90vw;
+            max-width: 1200px;
+            height: 90vh;
+            max-height: 900px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(212, 251, 6, 0.15);
             display: grid;
-            grid-template-columns: 280px 1fr 60px; 
-            grid-template-rows: 60px 1fr 100px; 
-            background: 
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
-                linear-gradient(180deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 100px 100px; 
-            background-position: center center;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
-            transition: opacity 0.5s ease;
-        }
-
-        /* Corner Intersections */
-        .grid-intersection {
-            position: absolute; width: 12px; height: 12px;
-            border: 1px solid var(--lime-green); background: var(--void-bg); z-index: 10;
-        }
-        .gi-tl { top: -6px; left: -6px; }
-        .gi-tr { top: -6px; right: -6px; }
-        .gi-bl { bottom: -6px; left: -6px; }
-        .gi-br { bottom: -6px; right: -6px; }
-
-        /* Top Header */
-        .header {
-            grid-column: 1 / -1; grid-row: 1;
-            border-bottom: 1px solid var(--grid-line);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 30px; font-family: var(--font-mono); font-size: 11px;
-            text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted);
-            background: rgba(3, 4, 6, 0.9); z-index: 5;
-        }
-        .status-dot {
-            width: 8px; height: 8px; background-color: var(--lime-green);
-            border-radius: 50%; display: inline-block; margin-right: 12px;
-            box-shadow: 0 0 10px var(--lime-green); animation: pulse 2s infinite;
-        }
-
-        /* Left Sidebar Navigation */
-        .sidebar {
-            grid-column: 1; grid-row: 2;
-            border-right: 1px solid var(--grid-line); padding: 50px 30px;
-            display: flex; flex-direction: column; gap: 30px;
-            font-family: var(--font-mono); background: rgba(3, 4, 6, 0.7); z-index: 5;
-        }
-        .nav-item {
-            font-size: 11px; text-transform: uppercase; letter-spacing: 2px;
-            color: var(--text-muted); text-decoration: none; display: flex; align-items: center;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .nav-item span { margin-right: 15px; color: var(--lime-green); opacity: 0; transform: translateX(-10px); transition: 0.3s; }
-        .nav-item:hover, .nav-item.active { color: var(--text-main); transform: translateX(10px); }
-        .nav-item:hover span, .nav-item.active span { opacity: 1; transform: translateX(0); }
-
-        /* Center Content (Scrollable) */
-        .content {
-            grid-column: 2; grid-row: 2;
-            overflow-y: auto; overflow-x: hidden;
-            position: relative; scroll-behavior: smooth;
-            background: rgba(0,0,0,0.4);
-        }
-        .content::-webkit-scrollbar { width: 0; } 
-
-        /* ================= SECTIONS ================= */
-        
-        /* 1. Hero / Identity */
-        .hero-section {
-            height: 75vh; min-height: 500px;
-            position: relative; display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            border-bottom: 1px solid var(--grid-line);
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 40px rgba(212, 251, 6, 0.1), inset 0 0 40px rgba(212, 251, 6, 0.05);
             overflow: hidden;
         }
 
-        .persona-container {
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); 
-            width: 360px; height: 520px;
-            z-index: 1; border-radius: 200px 200px 0 0; overflow: hidden;
-            border: 1px solid var(--lime-green);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 0 30px var(--lime-glow);
-        }
-        .persona-img {
-            width: 100%; height: 100%; object-fit: cover;
-            object-position: center 20%;
-            filter: grayscale(100%) contrast(1.1) brightness(0.7);
-            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .persona-container:hover .persona-img { transform: scale(1.05); }
-
-        .title-layer {
-            z-index: 2; text-align: center; position: relative; pointer-events: none;
-        }
-        h1 {
-            font-family: var(--font-serif); font-style: italic; font-weight: 400;
-            font-size: clamp(4rem, 8vw, 9rem); margin: 0; line-height: 0.9; color: var(--text-main);
-            letter-spacing: -2px; text-shadow: 0 10px 40px rgba(0,0,0,0.9);
-        }
-        .role-title {
-            font-family: var(--font-mono); font-size: 0.9rem; text-transform: uppercase;
-            letter-spacing: 0.4em; color: var(--lime-green); margin-top: 20px;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.9);
-            display: flex; align-items: center; justify-content: center; gap: 20px;
-        }
-        .role-title::before, .role-title::after { content: ''; width: 40px; height: 1px; background: var(--lime-green); opacity: 0.6; }
-
-        .intro-tagline {
-            padding: 60px; font-size: clamp(1.2rem, 2vw, 1.8rem); line-height: 1.6;
-            color: var(--text-muted); font-weight: 300; border-bottom: 1px solid var(--grid-line);
-        }
-        .intro-tagline .hl {
-            color: var(--text-main); font-weight: 600; 
-            border-bottom: 2px solid var(--lime-green); padding-bottom: 2px;
+        /* Left Panel */
+        .left-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+            padding-right: 1rem;
         }
 
-        .info-section {
-            padding: 80px 60px; border-bottom: 1px solid var(--grid-line);
-        }
-        .section-label {
-            font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.25em;
-            text-transform: uppercase; color: var(--lime-green); margin-bottom: 40px;
-        }
-        .brutal-heading {
-            font-family: var(--font-serif); font-size: 3rem; font-weight: 400;
-            line-height: 1.1; margin-bottom: 40px;
-        }
-        
-        .text-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
-        }
-        .text-grid p {
-            font-size: 1rem; line-height: 1.8; color: rgba(255,255,255,0.7); margin-bottom: 24px;
-        }
-        .text-grid p strong { color: var(--text-main); font-weight: 600; }
-
-        /* LinkedIn Carousel */
-        .li-carousel {
-            display: flex; gap: 20px; overflow-x: auto; padding-top: 40px; margin-top: 40px;
-            border-top: 1px solid var(--grid-line); scrollbar-width: none;
-        }
-        .li-carousel::-webkit-scrollbar { display: none; }
-        .li-card {
-            min-width: 320px; flex: 1; border: 1px solid var(--grid-line); background: rgba(3,4,6,0.6);
-            padding: 24px; text-decoration: none; color: var(--text-muted);
-            transition: 0.3s; filter: grayscale(100%); display: flex; flex-direction: column; gap: 15px;
-        }
-        .li-card:hover {
-            border-color: var(--lime-green); background: rgba(212, 251, 6, 0.03);
-            color: var(--text-main); filter: grayscale(0%);
-        }
-        .li-header { 
-            display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); 
-            font-size: 10px; color: var(--lime-green); text-transform: uppercase; letter-spacing: 1px;
-        }
-        .li-icon { font-weight: bold; background: #fff; color: #000; padding: 2px 6px; border-radius: 2px; }
-        .li-card p { font-size: 0.9rem; line-height: 1.6; margin: 0; font-style: italic; }
-        .li-card span.read-more { font-family: var(--font-mono); font-size: 10px; margin-top: auto; color: var(--lime-green); text-transform: uppercase; }
-
-        /* Neural Dive Terminal UI */
-        .neural-terminal {
-            background: rgba(212, 251, 6, 0.03); border: 1px solid var(--lime-green);
-            padding: 60px; display: flex; flex-direction: column; align-items: flex-start;
-            position: relative; overflow: hidden;
-        }
-        .neural-terminal::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, transparent, var(--lime-glow)); opacity: 0.1; pointer-events: none;
-        }
-        .btn-neural {
-            font-family: var(--font-mono); font-size: 12px; font-weight: 700;
-            text-transform: uppercase; letter-spacing: 2px; color: var(--void-bg);
-            background: var(--lime-green); padding: 18px 36px; border: none;
-            margin-top: 30px; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .btn-neural:hover {
-            box-shadow: 0 0 30px var(--lime-glow); transform: translateX(10px); background: #f4f5f9;
+        .left-panel::-webkit-scrollbar {
+            width: 6px;
         }
 
-        /* Work With Me / Accordion Bento Grid */
-        .client-logos {
-            display: flex; flex-wrap: wrap; gap: 40px; margin-bottom: 60px;
-            font-family: var(--font-mono); font-size: 14px; font-weight: bold;
-            color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 2px;
-        }
-        .client-logos span { transition: color 0.3s; cursor: none; }
-        .client-logos span:hover { color: var(--text-main); text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-
-        .bento-accordion {
-            display: flex; flex-direction: row; gap: 2px;
-            background: var(--grid-line); border: 1px solid var(--grid-line);
-            height: 600px; /* Increased height to ensure no content is cut off */
-        }
-        .bento-card {
-            flex: 1; background: var(--void-bg); padding: 50px;
-            transition: flex 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
-            overflow: hidden; display: flex; flex-direction: column;
-        }
-        .bento-card:hover { flex: 2.2; background: rgba(255,255,255,0.02); }
-        .bento-number {
-            font-family: var(--font-mono); font-size: 11px; font-weight: 700;
-            letter-spacing: 0.2em; color: var(--text-muted); margin-bottom: 20px;
-        }
-        .bento-card h3 {
-            font-family: var(--font-sans); font-size: 1.6rem; font-weight: 600;
-            text-transform: uppercase; margin-bottom: 0; line-height: 1.2;
-            transition: margin 0.4s; white-space: nowrap;
-        }
-        .bento-card h3 span { color: var(--lime-green); }
-        .bento-card:hover h3 { margin-bottom: 30px; }
-        
-        /* Hidden detailed content */
-        .bento-content {
-            opacity: 0; transform: translateY(20px); pointer-events: none;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            flex-grow: 1; display: flex; flex-direction: column;
-        }
-        .bento-content-inner {
-            width: 100%; min-width: 340px; /* Adapts dynamically without breaking */
-            display: flex; flex-direction: column; height: 100%;
-        }
-        .bento-card:hover .bento-content {
-            opacity: 1; transform: translateY(0); pointer-events: auto; transition-delay: 0.1s;
+        .left-panel::-webkit-scrollbar-thumb {
+            background: rgba(212, 251, 6, 0.3);
+            border-radius: 3px;
         }
 
-        .bento-content p { font-size: 0.9rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 20px; }
-        
-        .btn-outline {
-            display: inline-block; font-family: var(--font-mono); font-size: 11px;
-            text-transform: uppercase; letter-spacing: 1px; color: var(--lime-green);
-            border: 1px solid var(--lime-green); padding: 14px 24px; text-decoration: none;
-            transition: 0.3s; margin-top: auto; align-self: flex-start;
-        }
-        .btn-outline:hover { background: var(--lime-green); color: var(--void-bg); box-shadow: 0 0 15px var(--lime-glow); }
-
-        .topic-list { display: flex; flex-direction: column; gap: 2px; background: var(--grid-line); margin-top: auto; }
-        .topic-row {
-            background: var(--void-bg); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
-        }
-        .topic-row:hover { background: rgba(255,255,255,0.03); padding-left: 26px; }
-        .topic-title { font-size: 0.85rem; color: var(--text-main); }
-        .topic-tag {
-            font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.15em;
-            text-transform: uppercase; color: var(--lime-green); border: 1px solid var(--lime-glow); padding: 4px 8px;
+        .left-panel::-webkit-scrollbar-track {
+            background: transparent;
         }
 
-        /* Right Rail */
-        .rail {
-            grid-column: 3; grid-row: 2; border-left: 1px solid var(--grid-line);
-            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            padding: 40px 0; background: rgba(3, 4, 6, 0.7); z-index: 5;
-        }
-        .vertical-text {
-            writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--font-mono);
-            font-size: 10px; letter-spacing: 4px; color: var(--text-muted); text-transform: uppercase;
-        }
-
-        /* Footer */
-        .footer {
-            grid-column: 1 / -1; grid-row: 3; border-top: 1px solid var(--grid-line);
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 0 30px; background: rgba(3, 4, 6, 0.9); z-index: 5;
-        }
-        .big-data {
-            font-family: var(--font-mono); font-size: 3rem; font-weight: 700;
-            color: transparent; -webkit-text-stroke: 1px var(--text-muted);
-            letter-spacing: -2px; transition: 0.3s;
-        }
-        .contact-block { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; }
-        
-        /* Scanline */
-        @keyframes scanline { 0% { transform: translateY(-100vh); } 100% { transform: translateY(100vh); } }
-        .scanline {
-            position: absolute; top: 0; left: 0; width: 100%; height: 15vh;
-            background: linear-gradient(to bottom, transparent, rgba(212, 251, 6, 0.05), transparent);
-            pointer-events: none; animation: scanline 8s linear infinite; z-index: 4;
+        /* Profile Section */
+        .profile {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 1.5rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid rgba(212, 251, 6, 0.1);
         }
 
-        /* ================= 3D NEURAL OVERLAY ================= */
-        #neural-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--void-bg); z-index: 9000; opacity: 0; transition: opacity 1s ease;
-        }
-        #webgl-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        
-        .neural-ui-top {
-            position: absolute; top: 40px; left: 40px; right: 40px; display: flex;
-            justify-content: space-between; align-items: center; z-index: 10;
-        }
-        .exit-btn {
-            background: transparent; border: 1px solid var(--lime-green); color: var(--lime-green);
-            font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; padding: 12px 24px;
-            transition: 0.3s;
-        }
-        .exit-btn:hover { background: var(--lime-green); color: var(--void-bg); }
-        .timeline-guide { 
-            position: absolute; bottom: 40px; width: 100%; display: flex; justify-content: space-between; 
-            padding: 0 60px; font-family: var(--font-mono); color: var(--lime-green);
-            pointer-events: none; letter-spacing: 2px; font-size: 10px; z-index: 10;
-        }
-        
-        #video-popup {
-            display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            width: 80vw; max-width: 800px; z-index: 20; text-align: center;
-            background: rgba(3, 4, 6, 0.9); border: 1px solid var(--lime-green); padding: 20px;
-            box-shadow: 0 0 50px rgba(0,0,0,0.8), 0 0 20px var(--lime-glow);
-        }
-        #video-popup video { width: 100%; border-radius: 4px; }
-        .close-vid-btn {
-            background: transparent; color: var(--text-main); font-family: var(--font-mono);
-            border: none; margin-top: 15px; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;
-            text-decoration: underline;
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 8px;
+            object-fit: cover;
+            border: 2px solid var(--lime-green);
+            box-shadow: 0 0 20px rgba(212, 251, 6, 0.3);
         }
 
-        /* Mobile */
-        @media (max-width: 900px) {
-            .main-frame { grid-template-columns: 1fr; grid-template-rows: 60px 1fr 120px; width: 100vw; height: 100vh; border: none; margin: 0; }
-            .sidebar, .rail { display: none; }
-            .content { grid-column: 1; grid-row: 2; }
-            .text-grid { grid-template-columns: 1fr; }
-            .client-logos { justify-content: center; gap: 20px; }
-            .bento-accordion { flex-direction: column; height: auto; }
-            .bento-card { height: 160px; transition: height 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-            .bento-card:hover { height: 600px; }
+        .profile h1 {
+            font-family: var(--font-serif);
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--lime-green);
+            text-shadow: 0 0 10px rgba(212, 251, 6, 0.5);
         }
+
+        .profile p {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        /* About Section */
+        .about {
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(212, 251, 6, 0.1);
+        }
+
+        .about h2 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--lime-green);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        /* Links Section */
+        .links {
+            padding: 1.5rem 0;
+        }
+
+        .links h2 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--lime-green);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .link-item:hover {
+            background: rgba(212, 251, 6, 0.1);
+            color: var(--lime-green);
+            transform: translateX(4px);
+        }
+
+        .link-item::before {
+            content: "→";
+            color: var(--lime-green);
+            font-weight: bold;
+        }
+
+        /* Right Panel - Memories Grid */
+        .right-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .right-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .right-panel::-webkit-scrollbar-thumb {
+            background: rgba(212, 251, 6, 0.3);
+            border-radius: 3px;
+        }
+
+        .right-panel::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .memories-title {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--lime-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .memories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            flex: 1;
+        }
+
+        .memory-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 251, 6, 0.15);
+            background: rgba(15, 23, 42, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .memory-card:hover {
+            border-color: rgba(212, 251, 6, 0.5);
+            box-shadow: 0 0 20px rgba(212, 251, 6, 0.2);
+            transform: scale(1.05);
+        }
+
+        .memory-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .memory-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .memory-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(3, 4, 6, 0.95), transparent);
+            padding: 1rem;
+            max-height: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .memory-card:hover .memory-overlay {
+            opacity: 1;
+        }
+
+        .memory-overlay p {
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .memory-overlay .date {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--lime-green);
+            text-transform: uppercase;
+            margin-top: 0.25rem;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(3, 4, 6, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(212, 251, 6, 0.3);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 0 60px rgba(212, 251, 6, 0.2);
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 60vh;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 251, 6, 0.2);
+            object-fit: contain;
+        }
+
+        .modal-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .modal-text h2 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            color: var(--lime-green);
+            margin: 0;
+        }
+
+        .modal-text p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-main);
+            margin: 0;
+        }
+
+        .modal-text .date {
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .modal-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .modal-btn {
+            background: rgba(212, 251, 6, 0.1);
+            border: 1px solid rgba(212, 251, 6, 0.3);
+            color: var(--lime-green);
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .modal-btn:hover {
+            background: rgba(212, 251, 6, 0.2);
+            box-shadow: 0 0 10px rgba(212, 251, 6, 0.3);
+        }
+
+        .modal-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: var(--lime-green);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            text-shadow: 0 0 10px rgba(212, 251, 6, 0.5);
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-height: 100vh;
+                height: 100vh;
+                max-width: 100vw;
+                width: 100vw;
+                border-radius: 0;
+                padding: 1rem;
+            }
+
+            .memories-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
-            #popup-youtube { height: auto; aspect-ratio: 16/9; }
-            .timeline-guide { padding: 0 15px; font-size: 0.65em; bottom: 20px; }
-            #video-popup { width: 92vw; padding: 20px; }
+            .profile h1 {
+                font-size: 1.8rem;
+            }
+
+            .memories-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .modal-content {
+                flex-direction: column;
+            }
         }
-        /* Force l'iframe YouTube à garder un ratio 16/9 partout */
-        iframe { aspect-ratio: 16/9; width: 100%; height: auto; }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.75rem;
+                gap: 1rem;
+            }
+
+            .profile h1 {
+                font-size: 1.4rem;
+            }
+
+            .memories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .modal-content {
+                padding: 1rem;
+                gap: 1rem;
+            }
+
+            .close-btn {
+                top: 1rem;
+                right: 1rem;
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body>
-
+    <!-- Noise overlay -->
     <div class="noise-overlay"></div>
+
+    <!-- Custom cursor -->
     <div id="cursor-dot"></div>
     <div id="cursor-ring"></div>
 
-    <!-- MAIN DASHBOARD -->
-    <div class="main-frame" id="dashboard">
-        <div class="scanline"></div>
-        <div class="grid-intersection gi-tl"></div><div class="grid-intersection gi-tr"></div>
-        <div class="grid-intersection gi-bl"></div><div class="grid-intersection gi-br"></div>
-
-        <header class="header">
-            <div><span class="status-dot"></span> System Online</div>
-            <div>Ref: 2026-MR-V4</div>
-        </header>
-
-        <!-- NAVIGATION (Now with Scroll Spy) -->
-        <nav class="sidebar">
-            <a href="#hero" class="nav-item active"><span>//</span> 00. Identity</a>
-            <a href="#pov" class="nav-item"><span>//</span> 01. Point of View</a>
-            <a href="#memory" class="nav-item"><span>//</span> 02. Memory Core</a>
-            <a href="#work" class="nav-item"><span>//</span> 03. Work With Me</a>
-        </nav>
-
-        <main class="content" id="scroll-container">
-            
-            <section id="hero" class="hero-section">
-                <div class="persona-container" id="parallax-img">
-                    <img src="assets/Marie Pro.jpeg" alt="Marie Robin" class="persona-img">
-                </div>
-                <div class="title-layer" id="parallax-text">
-                    <h1>Marie Robin</h1>
-                    <div class="role-title">AI System Designer</div>
-                </div>
-            </section>
-
-            <!-- Kept right under Hero so it doesn't break Scroll Spy sections -->
-            <div class="intro-tagline">
-                I work with creative agencies to make sure <span class="hl">AI sharpens their intelligence.</span> Not flattens it.
+    <!-- Main container -->
+    <div class="container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <!-- Profile -->
+            <div class="profile">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Marie Robin" class="profile-pic">
+                <h1>Marie Robin</h1>
+                <p>AI System Designer</p>
             </div>
 
-            <section id="pov" class="info-section">
-                <div class="section-label">// Point of view</div>
-                <h2 class="brutal-heading">The danger isn't the tool. It's the <span style="font-style:normal; color: var(--lime-green);">habit.</span></h2>
-                <div class="text-grid">
-                    <div><p>Agencies have years of built-up instinct and client knowledge. <strong>That intelligence is the only thing AI can't replicate.</strong> But when teams accept "good enough" outputs without surfacing their prior research and judgment, they lose their edge.</p></div>
-                    <div><p>The real risk isn't replacement. It's bad habits forming faster than good ones. I know where the intelligence lives inside an agency—and I design the systems to make it stick.</p></div>
-                </div>
-
-                <!-- LINKEDIN CAROUSEL -->
-                <div class="li-carousel">
-                    <a href="https://www.linkedin.com/in/robinmarie/" target="_blank" class="li-card">
-                        <div class="li-header"><span class="li-icon">in</span> Marie Robin</div>
-                        <p>"How to save time with AI without losing focus? Here are the best quick wins for marketing teams. The difference between an AI agent and simple automation is..."</p>
-                        <span class="read-more">Access Post ↗</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/robinmarie/" target="_blank" class="li-card">
-                        <div class="li-header"><span class="li-icon">in</span> Marie Robin</div>
-                        <p>"With AI, you can arrive at a client meeting with 30 visual directions or 30 different angles... It completely changes the dynamic. As long as you have the right people..."</p>
-                        <span class="read-more">Access Post ↗</span>
-                    </a>
-                    <a href="https://www.linkedin.com/in/robinmarie/" target="_blank" class="li-card">
-                        <div class="li-header"><span class="li-icon">in</span> Marie Robin</div>
-                        <p>"AI cannot guess what you don't tell it. What makes the difference in my work are my cultural references, my history, my encounters. Stop trying to automate creativity."</p>
-                        <span class="read-more">Access Post ↗</span>
-                    </a>
-                </div>
-            </section>
-
-            <!-- NEURAL MEMORY ENTRY POINT -->
-            <section id="memory" class="info-section">
-                <div class="section-label">// Neural Memory Log</div>
-                <div class="neural-terminal">
-                    <h2 class="brutal-heading" style="margin-bottom: 20px; font-size: 2.2rem;">Shaped by experiences</h2>
-                    <p style="font-size: 1rem; line-height: 1.8; color: var(--text-muted); max-width: 650px;">
-                        Revisit some of my memories to get a sense of what made me me. A reminder that we're all the sum of experiments and sensations that AI will never understand.
-                    </p>
-                    <button class="btn-neural" onclick="launchNeuralDive()">[ Initialize immersion ]</button>
-                </div>
-            </section>
-
-            <!-- WORK WITH ME (Accordion Bento Grid) -->
-            <section id="work" class="info-section" style="padding-bottom: 120px;">
-                <div class="section-label">// Work With Me</div>
-                
-                <!-- Client Logos -->
-                <div class="client-logos">
-                    <span>LVMH</span>
-                    <span>Campari Group</span>
-                    <span>France TV</span>
-                    <span>Buzzman</span>
-                    <span>GrandVision</span>
-                    <span>Transitions</span>
-                </div>
-
-                <!-- Accordion Grid -->
-                <div class="bento-accordion">
-
-                    <div class="bento-card">
-                        <div class="bento-number">01</div>
-                        <h3>AI<br><span>Training</span></h3>
-                        <div class="bento-content">
-                            <div class="bento-content-inner">
-                                <p>With a background in digital marketing and social media, I understand the tools and use cases that actually matter. I train agency teams and marketing departments on the AI workflows that fit their reality, not generic demos.</p>
-                                <div class="topic-list">
-                                    <div class="topic-row">
-                                        <span class="topic-title">Extra time and vision for leaders</span>
-                                        <span class="topic-tag">AI Coaching</span>
-                                    </div>
-                                    <div class="topic-row">
-                                        <span class="topic-title">Unlock new expertise with AI skills & plugins</span>
-                                        <span class="topic-tag">Team Training</span>
-                                    </div>
-                                    <div class="topic-row">
-                                        <span class="topic-title">From generative to operative: build your agent teammates</span>
-                                        <span class="topic-tag">Advanced</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="bento-number">02</div>
-                        <h3>AI System<br><span>Design</span></h3>
-                        <div class="bento-content">
-                            <div class="bento-content-inner">
-                                <p>Embedding directly with teams to turn raw AI experimentation into structured, institutional workflows. Designing Custom OS, internal memory frameworks, and operational architectures.</p>
-                                <a href="https://fleetforward.tech" target="_blank" class="btn-outline">Visit Fleet Forward ↗</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bento-card">
-                        <div class="bento-number">03</div>
-                        <h3>Keynote<br><span>Speaking</span></h3>
-                        <div class="bento-content">
-                            <div class="bento-content-inner">
-                                <p>Addressing decision-makers on human-in-the-loop AI adoption, moving beyond simple tool demos to discuss true paradigm shifts.</p>
-                                <div class="topic-list">
-                                    <div class="topic-row">
-                                        <span class="topic-title">Reinventing the agency model</span>
-                                        <span class="topic-tag">Keynote</span>
-                                    </div>
-                                    <div class="topic-row">
-                                        <span class="topic-title">The human-in-the-loop approach</span>
-                                        <span class="topic-tag">Workshop</span>
-                                    </div>
-                                    <div class="topic-row">
-                                        <span class="topic-title">The Brand OS</span>
-                                        <span class="topic-tag">Exec Session</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- CTA -->
-                <a href="https://cal.com/marie-robin/" target="_blank" class="btn-neural" style="margin-top: 50px; display: inline-block; text-decoration: none; text-align: center;">[ Let's Meet ]</a>
-
-            </section>
-
-        </main>
-
-        <aside class="rail">
-            <div class="vertical-text">Scroll Axis Y</div>
-            <div style="width: 1px; height: 80px; background: linear-gradient(to bottom, var(--text-muted), transparent);"></div>
-            <div class="vertical-text" style="color: var(--lime-green);">Index 01-3</div>
-        </aside>
-
-        <footer class="footer">
-            <h2 class="big-data">2026</h2>
-            <div class="contact-block">Status: <span style="color: var(--lime-green);">Available</span></div>
-        </footer>
-    </div>
-
-    <!-- FULL SCREEN NEURAL 3D EXPERIENCE -->
-    <div id="neural-overlay">
-        <div class="neural-ui-top">
-            <div style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 2px; color: var(--text-muted);">
-                SYSTEM LOG: <span style="color: var(--lime-green);">NEURAL NETWORK ACTIVE</span>
+            <!-- About -->
+            <div class="about">
+                <h2>About</h2>
+                <p>I architect digital intelligence systems for creative agencies and brands. My work bridges human creativity with AI capability, ensuring every team member and AI agent operates in harmony.</p>
             </div>
-            <button class="exit-btn" onclick="exitNeuralDive()">Exit to Dashboard</button>
-        </div>
-        
-        <div class="timeline-guide">
-            <div><—— SCROLL Y: PAST</div>
-            <div>SCROLL Y: PRESENT ——></div>
+
+            <!-- Links -->
+            <div class="links">
+                <h2>Links</h2>
+                <div class="link-list">
+                    <a href="https://fleetforward.tech" class="link-item">Fleet Forward</a>
+                    <a href="https://marierobin.substack.com" class="link-item">Newsletter</a>
+                    <a href="https://linkedin.com/in/marie-robin" class="link-item">LinkedIn</a>
+                    <a href="https://twitter.com/marie" class="link-item">Twitter</a>
+                </div>
+            </div>
         </div>
 
-        <div id="webgl-canvas"></div>
-        <div id="previews-container" style="display:none;"></div>
-
-        <div id="video-popup">
-            <video id="popup-local-video" controls style="display: none; width: 100%; border-radius: 4px;"></video>
-            <iframe id="popup-youtube" style="display: none; width: 100%; height: 400px; border-radius: 4px;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-            <button class="close-vid-btn" id="close-btn">Close Video Sequence</button>
+        <!-- Right Panel - Memories -->
+        <div class="right-panel">
+            <h2 class="memories-title">Memories</h2>
+            <div class="memories-grid" id="memories-grid"></div>
         </div>
     </div>
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="Memory" class="modal-image">
+            <div class="modal-text">
+                <h2 id="modal-title"></h2>
+                <p id="modal-description"></p>
+                <p class="date" id="modal-date"></p>
+            </div>
+            <div class="modal-nav">
+                <button class="modal-btn" onclick="previousMemory()" id="prev-btn">← Previous</button>
+                <span id="memory-counter"></span>
+                <button class="modal-btn" onclick="nextMemory()" id="next-btn">Next →</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        /* UI & CURSOR LOGIC */
-        const dot = document.getElementById('cursor-dot');
-        const ring = document.getElementById('cursor-ring');
-        let mouseX = window.innerWidth/2, mouseY = window.innerHeight/2;
-        let ringX = mouseX, ringY = mouseY;
+        // Cursor tracking
+        const cursor = {
+            dot: document.getElementById('cursor-dot'),
+            ring: document.getElementById('cursor-ring'),
+            x: 0,
+            y: 0
+        };
 
         document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX; mouseY = e.clientY;
-            dot.style.transform = `translate(calc(-50% + ${mouseX}px), calc(-50% + ${mouseY}px))`;
+            cursor.x = e.clientX;
+            cursor.y = e.clientY;
+            cursor.dot.style.left = cursor.x + 'px';
+            cursor.dot.style.top = cursor.y + 'px';
+            cursor.ring.style.left = cursor.x + 'px';
+            cursor.ring.style.top = cursor.y + 'px';
         });
 
-        function animateRing() {
-            ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15;
-            ring.style.transform = `translate(calc(-50% + ${ringX}px), calc(-50% + ${ringY}px))`;
-            requestAnimationFrame(animateRing);
-        }
-        animateRing();
-
-        /* PARALLAX */
-        const pImg = document.getElementById('parallax-img');
-        const pText = document.getElementById('parallax-text');
-        const contentEl = document.querySelector('.content');
-
-        contentEl.addEventListener('mousemove', (e) => {
-            if(contentEl.scrollTop > 200) return;
-            const xOffset = (window.innerWidth/2 - e.clientX) / 40;
-            const yOffset = (window.innerHeight/2 - e.clientY) / 40;
-            pImg.style.transform = `translate(calc(-50% + ${xOffset}px), calc(-50% + ${yOffset}px))`;
-            pText.style.transform = `translate(${-xOffset * 1.5}px, ${-yOffset * 1.5}px)`;
-        });
-
-        /* HOVER EFFECTS */
-        const hoverables = document.querySelectorAll('a, h1, .bento-card, .btn-neural, .exit-btn, .topic-row, .li-card');
-        hoverables.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                ring.style.width = '60px'; ring.style.height = '60px';
-                ring.style.backgroundColor = 'rgba(212, 251, 6, 0.1)';
-            });
-            el.addEventListener('mouseleave', () => {
-                ring.style.width = '32px'; ring.style.height = '32px';
-                ring.style.backgroundColor = 'transparent';
-            });
-        });
-
-        /* SCROLL SPY LOGIC (Updates Navigation dynamically) */
-        const sections = document.querySelectorAll('section[id]');
-        const navItems = document.querySelectorAll('.nav-item');
-
-        contentEl.addEventListener('scroll', () => {
-            let current = '';
-            const scrollY = contentEl.scrollTop;
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 150; // offset to trigger earlier
-                const sectionHeight = section.offsetHeight;
-                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navItems.forEach(item => {
-                item.classList.remove('active');
-                if (item.getAttribute('href') === `#${current}`) {
-                    item.classList.add('active');
-                }
-            });
-        });
-
-        /* THREE.JS NEURAL NETWORK LOGIC */
-        let scene, camera, renderer, memoriesGroup, ptsMesh;
-        let is3DInitialized = false;
-        let targetX = 0; 
-        let isPaused = false;
-        
-        const dashboard = document.getElementById('dashboard');
-        const neuralOverlay = document.getElementById('neural-overlay');
-        const videoPopup = document.getElementById('video-popup');
-
-        function launchNeuralDive() {
-            dashboard.style.opacity = '0';
-            setTimeout(() => {
-                dashboard.style.display = 'none';
-                neuralOverlay.style.display = 'block';
-                void neuralOverlay.offsetWidth;
-                neuralOverlay.style.opacity = '1';
-                
-                if(!is3DInitialized) {
-                    init3D();
-                    is3DInitialized = true;
-                }
-            }, 500);
-        }
-
-        function exitNeuralDive() {
-            neuralOverlay.style.opacity = '0';
-            setTimeout(() => {
-                neuralOverlay.style.display = 'none';
-                dashboard.style.display = 'grid';
-                void dashboard.offsetWidth;
-                dashboard.style.opacity = '1';
-            }, 1000);
-        }
-
-        function init3D() {
-            const container = document.getElementById('webgl-canvas');
-            
-            const memoriesData = [
-                // Gauche lointain (passé) : vidéo locale 1990 Spain
-                { type: 'local', position: [-350, 15, -40], mediaSrc: 'videos/1990 Spain.mp4' },
-                // Gauche proche : vidéo locale 2016 Spain
-                { type: 'local', position: [-150, -20, -55], mediaSrc: 'videos/2016 Spain.mp4' },
-                // Droite : YouTube "Travailler en 2033"
-                { type: 'youtube', position: [150, 25, -50], embedSrc: 'https://www.youtube.com/embed/A2xaaoM-1Ms?autoplay=1&rel=0', previewImg: 'https://img.youtube.com/vi/A2xaaoM-1Ms/hqdefault.jpg' },
-                // Droite lointain (2025)
-                { type: 'youtube', position: [350, -10, -45], embedSrc: 'https://www.youtube.com/embed/p7a9bDykcRA?autoplay=1&rel=0', previewImg: 'https://img.youtube.com/vi/p7a9bDykcRA/hqdefault.jpg' }
-            ];
-
-            scene = new THREE.Scene();
-            scene.fog = new THREE.FogExp2(0x030406, 0.002);
-
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 0, 120); 
-
-            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            container.appendChild(renderer.domElement); 
-
-            memoriesGroup = new THREE.Group();
-            scene.add(memoriesGroup);
-
-            // --- Neural Particles & Synapses ---
-            const particlesCount = 600;
-            const geo = new THREE.BufferGeometry();
-            const posArr = new Float32Array(particlesCount * 3);
-            for(let i=0; i<particlesCount*3; i+=3) {
-                posArr[i] = (Math.random()-0.5) * 1200;  
-                posArr[i+1] = (Math.random()-0.5) * 150; 
-                posArr[i+2] = (Math.random()-0.5) * 200 - 50;
+        // Memories data
+        const memories = [
+            {
+                id: 1,
+                title: "Founding Fleet Forward",
+                description: "Started a mission to digitize the gray matter of creative agencies and brands, making human expertise mobilizable for AI agents.",
+                date: "March 2024",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 2,
+                title: "Intelligence Factory Launch",
+                description: "Unveiled the Intelligence Factory concept for creative agencies, automating knowledge workflows while keeping humans in the loop.",
+                date: "June 2024",
+                image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=500&fit=crop"
+            },
+            {
+                id: 3,
+                title: "Brand OS Framework",
+                description: "Developed Brand OS architecture for marketing teams to operationalize brand intelligence across their entire organization.",
+                date: "August 2024",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 4,
+                title: "First Client Success",
+                description: "Implemented Fleet Forward for a 50-person agency, resulting in a 40% reduction in repetitive creative work.",
+                date: "September 2024",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 5,
+                title: "Scaling the Vision",
+                description: "Expanded team to support growing demand from mid-size agencies across Europe. Focus on human-centered AI implementation.",
+                date: "November 2024",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 6,
+                title: "Brand Partnerships",
+                description: "Partnered with major brands to test Brand OS framework, proving the model works for enterprise-level marketing teams.",
+                date: "January 2025",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 7,
+                title: "Thought Leadership",
+                description: "Published manifesto on responsible AI in creative work, emphasizing value-first approach and human-AI collaboration.",
+                date: "February 2025",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 8,
+                title: "Newsletter Growth",
+                description: "Built engaged community through weekly insights on creative intelligence and AI-human partnership in marketing.",
+                date: "Ongoing",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 9,
+                title: "Speaking Circuit",
+                description: "Shared frameworks and learnings at industry conferences, helping creative leaders think differently about AI.",
+                date: "2024-2025",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 10,
+                title: "Research & Audits",
+                description: "Conducted deep-dive audits with clients to understand where human expertise gets lost, informing product roadmap.",
+                date: "Quarterly",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 11,
+                title: "AI Skills Training",
+                description: "Developed comprehensive training programs teaching creative teams how to work effectively with AI while maintaining creative control.",
+                date: "Q4 2024",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 12,
+                title: "Community Building",
+                description: "Created network of creative leaders, brand strategists, and AI practitioners sharing best practices and lessons learned.",
+                date: "March 2025",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+            },
+            {
+                id: 13,
+                title: "Future Vision",
+                description: "Building toward a world where every creative team has the tools to amplify their expertise through intelligent automation.",
+                date: "2025+",
+                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
             }
-            geo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
-            
-            // Lime Green Particles
-            const ptsMesh = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.8, color: 0xD4FB06, transparent: true, opacity: 0.6 }));
-            scene.add(ptsMesh);
+        ];
 
-            // Darker connections
-            const lineMat = new THREE.LineBasicMaterial({ color: 0x6b7280, transparent: true, opacity: 0.2 });
-            const linePos =[];
-            for (let i=0; i<particlesCount; i+=2) { 
-                for (let j=i+1; j<particlesCount; j+=15) { 
-                    const dx = posArr[i*3] - posArr[j*3];
-                    const dy = posArr[i*3+1] - posArr[j*3+1];
-                    const dz = posArr[i*3+2] - posArr[j*3+2];
-                    if ((dx*dx + dy*dy + dz*dz) < 1500) { 
-                        linePos.push(posArr[i*3], posArr[i*3+1], posArr[i*3+2], posArr[j*3], posArr[j*3+1], posArr[j*3+2]);
-                    }
-                }
-            }
-            const lineGeo = new THREE.BufferGeometry();
-            lineGeo.setAttribute('position', new THREE.Float32BufferAttribute(linePos, 3));
-            scene.add(new THREE.LineSegments(lineGeo, lineMat));
+        let currentMemoryIndex = 0;
 
-            // --- Hybrid Spheres (Local Video + YouTube Image) ---
-            const textureLoader = new THREE.TextureLoader();
-            const previewsContainer = document.getElementById('previews-container');
-            const sphereGeo = new THREE.SphereGeometry(18, 32, 32);
-
-            memoriesData.forEach((data) => {
-                let sphereMat;
-                if (data.type === 'local') {
-                    const vidEl = document.createElement('video');
-                    vidEl.src = data.mediaSrc;
-                    vidEl.loop = true; vidEl.muted = true; vidEl.autoplay = true; vidEl.playsinline = true;
-                    vidEl.crossOrigin = "anonymous";
-                    previewsContainer.appendChild(vidEl);
-                    const vidTex = new THREE.VideoTexture(vidEl);
-                    sphereMat = new THREE.MeshBasicMaterial({ map: vidTex, color: 0xe0e2eb });
-                } else if (data.type === 'youtube') {
-                    const imgTex = textureLoader.load(data.previewImg);
-                    sphereMat = new THREE.MeshBasicMaterial({ map: imgTex, color: 0xe0e2eb });
-                }
-                const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
-                sphereMesh.position.set(data.position[0], data.position[1], data.position[2]);
-                sphereMesh.userData = { type: data.type, mediaSrc: data.mediaSrc, embedSrc: data.embedSrc };
-                memoriesGroup.add(sphereMesh);
-            });
-
-            // --- Navigation & Interactions ---
-            const raycaster = new THREE.Raycaster();
-            const mouse = new THREE.Vector2();
-            const popupLocal = document.getElementById('popup-local-video');
-            const popupYT = document.getElementById('popup-youtube');
-
-            window.addEventListener('wheel', (event) => {
-                if (isPaused || neuralOverlay.style.display === 'none') return;
-                targetX += event.deltaY * 0.2;
-                if (targetX < -450) targetX = -450;
-                if (targetX > 450) targetX = 450;
-            });
-
-            // --- Navigation tactile mobile ---
-            let touchStartX = 0;
-            window.addEventListener('touchstart', (event) => {
-                if (isPaused || neuralOverlay.style.display === 'none') return;
-                touchStartX = event.touches[0].clientX;
-            });
-            window.addEventListener('touchmove', (event) => {
-                if (isPaused || neuralOverlay.style.display === 'none') return;
-                let touchDelta = touchStartX - event.touches[0].clientX;
-                targetX += touchDelta * 0.8;
-                touchStartX = event.touches[0].clientX;
-                if (targetX < -450) targetX = -450;
-                if (targetX > 450) targetX = 450;
-            });
-
-            window.addEventListener('click', (event) => {
-                if (isPaused || neuralOverlay.style.display === 'none') return;
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-                raycaster.setFromCamera(mouse, camera);
-
-                const intersects = raycaster.intersectObjects(memoriesGroup.children);
-                if (intersects.length > 0) {
-                    isPaused = true;
-                    const memory = intersects[0].object.userData;
-                    if (memory.type === 'local') {
-                        popupYT.style.display = 'none';
-                        popupLocal.style.display = 'block';
-                        popupLocal.src = memory.mediaSrc;
-                        popupLocal.play();
-                    } else if (memory.type === 'youtube') {
-                        popupLocal.style.display = 'none';
-                        popupYT.style.display = 'block';
-                        popupYT.src = memory.embedSrc;
-                    }
-                    videoPopup.style.display = 'block';
-                }
-            });
-
-            document.getElementById('close-btn').addEventListener('click', () => {
-                videoPopup.style.display = 'none';
-                popupLocal.pause();
-                popupLocal.src = "";
-                popupYT.src = "";
-                isPaused = false;
-            });
-
-            // --- Animation Loop ---
-            function animate3D() {
-                requestAnimationFrame(animate3D);
-
-                if (!isPaused && neuralOverlay.style.display === 'block') {
-                    camera.position.x += (targetX - camera.position.x) * 0.05;
-                    
-                    ptsMesh.position.y = Math.sin(Date.now() * 0.0005) * 5;
-                    scene.children[1].position.y = Math.sin(Date.now() * 0.0005) * 5; 
-
-                    memoriesGroup.children.forEach(sphere => {
-                        sphere.rotation.y += 0.005;
-                        const distToCenter = Math.abs(sphere.position.x - camera.position.x);
-                        if (distToCenter < 60) {
-                            const scale = 1 + (60 - distToCenter) * 0.01;
-                            sphere.scale.set(scale, scale, scale);
-                        } else {
-                            sphere.scale.set(1, 1, 1);
-                        }
-                    });
-                }
-                renderer.render(scene, camera);
-            }
-            animate3D();
-
-            window.addEventListener('resize', () => {
-                if(neuralOverlay.style.display === 'block') {
-                    camera.aspect = window.innerWidth / window.innerHeight;
-                    camera.updateProjectionMatrix();
-                    renderer.setSize(window.innerWidth, window.innerHeight);
-                }
+        function renderMemories() {
+            const grid = document.getElementById('memories-grid');
+            grid.innerHTML = '';
+            memories.forEach((memory, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.onclick = () => openModal(index);
+                card.innerHTML = `
+                    <img src="${memory.image}" alt="${memory.title}">
+                    <div class="memory-overlay">
+                        <p>${memory.title}</p>
+                        <div class="date">${memory.date}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
             });
         }
+
+        function openModal(index) {
+            currentMemoryIndex = index;
+            updateModal();
+            document.getElementById('modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+        }
+
+        function updateModal() {
+            const memory = memories[currentMemoryIndex];
+            document.getElementById('modal-image').src = memory.image;
+            document.getElementById('modal-title').textContent = memory.title;
+            document.getElementById('modal-description').textContent = memory.description;
+            document.getElementById('modal-date').textContent = memory.date;
+            document.getElementById('memory-counter').textContent = `${currentMemoryIndex + 1} / ${memories.length}`;
+            
+            document.getElementById('prev-btn').disabled = currentMemoryIndex === 0;
+            document.getElementById('next-btn').disabled = currentMemoryIndex === memories.length - 1;
+        }
+
+        function previousMemory() {
+            if (currentMemoryIndex > 0) {
+                currentMemoryIndex--;
+                updateModal();
+            }
+        }
+
+        function nextMemory() {
+            if (currentMemoryIndex < memories.length - 1) {
+                currentMemoryIndex++;
+                updateModal();
+            }
+        }
+
+        // Close modal on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+            if (e.key === 'ArrowLeft') {
+                previousMemory();
+            }
+            if (e.key === 'ArrowRight') {
+                nextMemory();
+            }
+        });
+
+        // Close modal on outside click
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('modal')) {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        renderMemories();
+
+        // Responsive height adjustment
+        function adjustHeight() {
+            if (window.innerWidth <= 1024) {
+                document.querySelector('.container').style.maxHeight = 'fit-content';
+            } else {
+                document.querySelector('.container').style.maxHeight = '900px';
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            adjustHeight();
+            document.querySelector('.container').style.width = '90vw';
+            document.querySelector('.container').style.height = '90vh';
+            document.querySelector('.container').style.maxWidth = '1200px';
+            document.querySelector('.container').style.maxHeight = window.innerHeight > window.innerWidth ? 'fit-content' : '900px';
+        });
+
+        adjustHeight();
+        window.addEventListener('resize', () => {
+            document.querySelector('.container').style.width = '90vw';
+            document.querySelector('.container').style.height = '90vh';
+            document.querySelector('.container').style.maxWidth = '1200px';
+            document.querySelector('.container').style.maxHeight = window.innerHeight > window.innerWidth ? 'fit-content' : '900px';
+        });
     </script>
 </body>
 </html>
