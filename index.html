@@ -256,14 +256,16 @@
             transform: scale(1.05);
         }
 
-        .memory-card img {
+        .memory-card img,
+        .memory-card video {
             width: 100%;
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
 
-        .memory-card:hover img {
+        .memory-card:hover img,
+        .memory-card:hover video {
             transform: scale(1.1);
         }
 
@@ -332,12 +334,18 @@
             box-shadow: 0 0 60px rgba(212, 251, 6, 0.2);
         }
 
-        .modal-image {
+        .modal-image,
+        .modal-video {
             max-width: 100%;
             max-height: 60vh;
             border-radius: 8px;
             border: 1px solid rgba(212, 251, 6, 0.2);
             object-fit: contain;
+        }
+
+        .modal-video {
+            width: 100%;
+            background: #000;
         }
 
         .modal-text {
@@ -489,7 +497,7 @@
         <div class="left-panel">
             <!-- Profile -->
             <div class="profile">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Marie Robin" class="profile-pic">
+                <img src="assets/marie-pro.jpeg" alt="Marie Robin" class="profile-pic">
                 <h1>Marie Robin</h1>
                 <p>AI System Designer</p>
             </div>
@@ -514,7 +522,7 @@
 
         <!-- Right Panel - Memories -->
         <div class="right-panel">
-            <h2 class="memories-title">Memories</h2>
+            <h2 class="memories-title">Memory Core</h2>
             <div class="memories-grid" id="memories-grid"></div>
         </div>
     </div>
@@ -524,6 +532,7 @@
         <button class="close-btn" onclick="closeModal()">&times;</button>
         <div class="modal-content">
             <img id="modal-image" src="" alt="Memory" class="modal-image">
+            <video id="modal-video" class="modal-video" controls style="display:none;"></video>
             <div class="modal-text">
                 <h2 id="modal-title"></h2>
                 <p id="modal-description"></p>
@@ -555,98 +564,84 @@
             cursor.ring.style.top = cursor.y + 'px';
         });
 
-        // Memories data
+        // Memories data - personal travel memories with local videos
         const memories = [
             {
                 id: 1,
-                title: "Founding Fleet Forward",
-                description: "Started a mission to digitize the gray matter of creative agencies and brands, making human expertise mobilizable for AI agents.",
-                date: "March 2024",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Spain",
+                description: "Early childhood memories under the Spanish sun. The warmth, the colors, the beginning of a lifelong love for travel.",
+                date: "1990",
+                video: "videos/1990%20Spain.mp4"
             },
             {
                 id: 2,
-                title: "Intelligence Factory Launch",
-                description: "Unveiled the Intelligence Factory concept for creative agencies, automating knowledge workflows while keeping humans in the loop.",
-                date: "June 2024",
-                image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=500&fit=crop"
+                title: "Drancy",
+                description: "Growing up in Drancy, the streets and stories that shaped who I became.",
+                date: "1998",
+                video: "videos/1998%20drancy.mp4"
             },
             {
                 id: 3,
-                title: "Brand OS Framework",
-                description: "Developed Brand OS architecture for marketing teams to operationalize brand intelligence across their entire organization.",
-                date: "August 2024",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Marseille",
+                description: "The port city where the Mediterranean meets urban energy. Sun-soaked days and vibrant culture.",
+                date: "2010",
+                video: "videos/2010%20marseille.mp4"
             },
             {
                 id: 4,
-                title: "First Client Success",
-                description: "Implemented Fleet Forward for a 50-person agency, resulting in a 40% reduction in repetitive creative work.",
-                date: "September 2024",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Shanghai",
+                description: "Immersed in the electric pulse of Shanghai. A city where tradition and futurism collide at every corner.",
+                date: "2011",
+                video: "videos/2011%20Shanghai.mp4"
             },
             {
                 id: 5,
-                title: "Scaling the Vision",
-                description: "Expanded team to support growing demand from mid-size agencies across Europe. Focus on human-centered AI implementation.",
-                date: "November 2024",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Rome",
+                description: "Walking through millennia of history. Every stone tells a story, every piazza holds a memory.",
+                date: "2013",
+                video: "videos/2013%20Rome.mp4"
             },
             {
                 id: 6,
-                title: "Brand Partnerships",
-                description: "Partnered with major brands to test Brand OS framework, proving the model works for enterprise-level marketing teams.",
-                date: "January 2025",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "The Alps",
+                description: "Mountain air and endless horizons. Finding clarity at altitude, where the world stretches out below.",
+                date: "2015",
+                video: "videos/2015%20Alps.mp4"
             },
             {
                 id: 7,
-                title: "Thought Leadership",
-                description: "Published manifesto on responsible AI in creative work, emphasizing value-first approach and human-AI collaboration.",
-                date: "February 2025",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Spain",
+                description: "Returning to Spain years later, seeing it through new eyes. The same warmth, a different perspective.",
+                date: "2016",
+                video: "videos/2016%20Spain.mp4"
             },
             {
                 id: 8,
-                title: "Newsletter Growth",
-                description: "Built engaged community through weekly insights on creative intelligence and AI-human partnership in marketing.",
-                date: "Ongoing",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "California",
+                description: "The golden coast where innovation meets the Pacific. Sunsets, highways, and endless possibilities.",
+                date: "2017",
+                video: "videos/2017%20California.mp4"
             },
             {
                 id: 9,
-                title: "Speaking Circuit",
-                description: "Shared frameworks and learnings at industry conferences, helping creative leaders think differently about AI.",
-                date: "2024-2025",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Mexico",
+                description: "Colors, flavors, and a rhythm of life that pulls you in. Mexico left its mark on my soul.",
+                date: "2017",
+                video: "videos/2017%20Mexico.mp4"
             },
             {
                 id: 10,
-                title: "Research & Audits",
-                description: "Conducted deep-dive audits with clients to understand where human expertise gets lost, informing product roadmap.",
-                date: "Quarterly",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Belize",
+                description: "Turquoise waters and untouched nature. A place where time slows down and the world feels simpler.",
+                date: "2018",
+                video: "videos/2018%20Belize.mp4"
             },
             {
                 id: 11,
-                title: "AI Skills Training",
-                description: "Developed comprehensive training programs teaching creative teams how to work effectively with AI while maintaining creative control.",
-                date: "Q4 2024",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
-            },
-            {
-                id: 12,
-                title: "Community Building",
-                description: "Created network of creative leaders, brand strategists, and AI practitioners sharing best practices and lessons learned.",
-                date: "March 2025",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
-            },
-            {
-                id: 13,
-                title: "Future Vision",
-                description: "Building toward a world where every creative team has the tools to amplify their expertise through intelligent automation.",
-                date: "2025+",
-                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=500&fit=crop"
+                title: "Paris",
+                description: "The city that feels like home. Quiet mornings, bustling arrondissements, and the beauty of everyday life.",
+                date: "2020",
+                video: "videos/2020%20Paris.mp4"
             }
         ];
 
@@ -659,13 +654,26 @@
                 const card = document.createElement('div');
                 card.className = 'memory-card';
                 card.onclick = () => openModal(index);
-                card.innerHTML = `
-                    <img src="${memory.image}" alt="${memory.title}">
-                    <div class="memory-overlay">
-                        <p>${memory.title}</p>
-                        <div class="date">${memory.date}</div>
-                    </div>
-                `;
+                if (memory.video) {
+                    card.innerHTML = `
+                        <video src="${memory.video}" muted loop preload="metadata"></video>
+                        <div class="memory-overlay">
+                            <p>${memory.title}</p>
+                            <div class="date">${memory.date}</div>
+                        </div>
+                    `;
+                    const video = card.querySelector('video');
+                    card.addEventListener('mouseenter', () => video.play());
+                    card.addEventListener('mouseleave', () => { video.pause(); video.currentTime = 0; });
+                } else {
+                    card.innerHTML = `
+                        <img src="${memory.image}" alt="${memory.title}">
+                        <div class="memory-overlay">
+                            <p>${memory.title}</p>
+                            <div class="date">${memory.date}</div>
+                        </div>
+                    `;
+                }
                 grid.appendChild(card);
             });
         }
@@ -677,17 +685,35 @@
         }
 
         function closeModal() {
+            const modalVideo = document.getElementById('modal-video');
+            modalVideo.pause();
+            modalVideo.src = '';
             document.getElementById('modal').classList.remove('active');
         }
 
         function updateModal() {
             const memory = memories[currentMemoryIndex];
-            document.getElementById('modal-image').src = memory.image;
+            const modalImage = document.getElementById('modal-image');
+            const modalVideo = document.getElementById('modal-video');
+
+            if (memory.video) {
+                modalImage.style.display = 'none';
+                modalVideo.style.display = 'block';
+                modalVideo.src = memory.video;
+                modalVideo.load();
+            } else {
+                modalVideo.style.display = 'none';
+                modalVideo.pause();
+                modalVideo.src = '';
+                modalImage.style.display = 'block';
+                modalImage.src = memory.image;
+            }
+
             document.getElementById('modal-title').textContent = memory.title;
             document.getElementById('modal-description').textContent = memory.description;
             document.getElementById('modal-date').textContent = memory.date;
             document.getElementById('memory-counter').textContent = `${currentMemoryIndex + 1} / ${memories.length}`;
-            
+
             document.getElementById('prev-btn').disabled = currentMemoryIndex === 0;
             document.getElementById('next-btn').disabled = currentMemoryIndex === memories.length - 1;
         }
