@@ -304,6 +304,37 @@
             text-transform: uppercase; color: var(--lime-green); border: 1px solid var(--lime-glow); padding: 4px 8px;
         }
 
+        /* FAQ Section */
+        .faq-list { display: flex; flex-direction: column; }
+        .faq-item { border-bottom: 1px solid var(--grid-line); }
+        .faq-question {
+            display: flex; align-items: center; gap: 20px; padding: 22px 0;
+            cursor: none; transition: 0.3s;
+        }
+        .faq-question:hover { padding-left: 10px; }
+        .faq-index {
+            font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+            letter-spacing: 0.2em; color: var(--lime-green); min-width: 30px;
+        }
+        .faq-q-text {
+            flex: 1; font-size: 1rem; font-weight: 500; color: var(--text-main);
+            margin: 0; transition: color 0.3s;
+        }
+        .faq-item.active .faq-q-text { color: var(--lime-green); }
+        .faq-toggle {
+            font-family: var(--font-mono); font-size: 1.2rem; font-weight: 700;
+            color: var(--lime-green); min-width: 20px; text-align: center;
+            transition: transform 0.3s;
+        }
+        .faq-item.active .faq-toggle { transform: rotate(45deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease;
+        }
+        .faq-item.active .faq-answer { max-height: 300px; padding: 0 0 24px 50px; }
+        .faq-answer p {
+            font-size: 0.9rem; line-height: 1.8; color: var(--text-muted); margin: 0;
+        }
+
         /* Right Rail */
         .rail {
             grid-column: 3; grid-row: 2; border-left: 1px solid var(--grid-line);
@@ -415,6 +446,7 @@
             <a href="#pov" class="nav-item"><span>//</span> 01. Point of View</a>
             <a href="#memory" class="nav-item"><span>//</span> 02. Memory Core</a>
             <a href="#work" class="nav-item"><span>//</span> 03. Work With Me</a>
+            <a href="#faq" class="nav-item"><span>//</span> 04. FAQ</a>
         </nav>
 
         <main class="content" id="scroll-container">
@@ -557,12 +589,80 @@
 
             </section>
 
+            <!-- FAQ -->
+            <section id="faq" class="info-section" style="padding-bottom: 120px;">
+                <div class="section-label">// Frequently Asked</div>
+                <h2 class="brutal-heading">System <span style="font-style:normal; color: var(--lime-green);">Queries</span></h2>
+                <div class="faq-list">
+                    <div class="faq-item" data-faq="1">
+                        <div class="faq-question">
+                            <span class="faq-index">01</span>
+                            <p class="faq-q-text">What does an AI transformation consultant for agencies actually do?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>I diagnose where AI creates real value in your agency's operations, design custom workflows that fit your team's reality, and implement systems that stick. The work spans strategy alignment with leadership, hands-on training for creative and commercial teams, and building automated pipelines for recurring tasks. The goal is operational autonomy, not tool adoption.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="2">
+                        <div class="faq-question">
+                            <span class="faq-index">02</span>
+                            <p class="faq-q-text">How is AI reshaping the creative agency business model?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Clients now expect faster delivery at lower cost. 58% of advertisers plan to reduce agency fees because of AI. Agencies that only sell production are becoming commodities. The agencies winning in 2026 sell strategic intelligence, proprietary systems, and the ability to orchestrate AI-augmented creative workflows their clients can't build alone.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="3">
+                        <div class="faq-question">
+                            <span class="faq-index">03</span>
+                            <p class="faq-q-text">What's the difference between AI training and AI transformation?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Training teaches tools. Transformation changes how work gets done. Most agencies have done a one-day ChatGPT workshop — six weeks later, everyone's back to old habits. Transformation means diagnosing workflows, building custom AI systems, training on real use cases, and following up until adoption is measurable. Training is a day. Transformation is a 2-month engagement with lasting impact.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="4">
+                        <div class="faq-question">
+                            <span class="faq-index">04</span>
+                            <p class="faq-q-text">What is an Intelligence Factory?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>An Intelligence Factory is a system that digitizes your agency's collective intelligence — client knowledge, creative processes, strategic frameworks — and makes it accessible to your team and their AI assistants. It combines automated performance monitoring, a knowledge wiki, and calibrated content generation relying on agency expertise. The result: your team produces faster without losing quality or brand consistency.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="5">
+                        <div class="faq-question">
+                            <span class="faq-index">05</span>
+                            <p class="faq-q-text">What is a Brand OS?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>A Brand OS is the operating infrastructure that lets marketing teams produce content quickly, accurately, and without waiting for an agency or internal expert for every deliverable. It centralizes brand memory, tone guidelines, and approved assets into a system that AI can access in real time. Teams become autonomous producers instead of permanent requesters.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="6">
+                        <div class="faq-question">
+                            <span class="faq-index">06</span>
+                            <p class="faq-q-text">How long does an AI transformation take for a creative agency?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>A diagnostic takes 2 weeks. A first operational pilot runs 4 to 8 weeks. Full transformation with measurable adoption typically takes 3 to 6 months depending on team size and complexity. The approach is incremental: we start with one use case that delivers a visible before/after, then scale what works.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         </main>
 
         <aside class="rail">
             <div class="vertical-text">Scroll Axis Y</div>
             <div style="width: 1px; height: 80px; background: linear-gradient(to bottom, var(--text-muted), transparent);"></div>
-            <div class="vertical-text" style="color: var(--lime-green);">Index 01-3</div>
+            <div class="vertical-text" style="color: var(--lime-green);">Index 01-4</div>
         </aside>
 
         <footer class="footer">
@@ -663,6 +763,16 @@
                 if (item.getAttribute('href') === `#${current}`) {
                     item.classList.add('active');
                 }
+            });
+        });
+
+        /* FAQ ACCORDION */
+        document.querySelectorAll('.faq-item').forEach(function(item) {
+            item.querySelector('.faq-question').addEventListener('click', function() {
+                document.querySelectorAll('.faq-item').forEach(function(other) {
+                    if (other !== item) other.classList.remove('active');
+                });
+                item.classList.toggle('active');
             });
         });
 
