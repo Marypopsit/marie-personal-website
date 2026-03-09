@@ -481,6 +481,120 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* ========== FAQ Section ========== */
+        .faq {
+            padding: 1.5rem 0;
+            border-top: 1px solid rgba(212, 251, 6, 0.1);
+        }
+
+        .faq-header {
+            margin-bottom: 1rem;
+        }
+
+        .faq-label {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .faq h2 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            color: var(--lime-green);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .faq-list {
+            border-top: 1px solid rgba(212, 251, 6, 0.08);
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(212, 251, 6, 0.08);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background: rgba(212, 251, 6, 0.03);
+        }
+
+        .faq-question {
+            padding: 0.75rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .faq-index {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            flex-shrink: 0;
+            min-width: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .faq-item.active .faq-index {
+            color: var(--lime-green);
+        }
+
+        .faq-q-text {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+            font-weight: 500;
+            flex: 1;
+            padding-right: 0.75rem;
+        }
+
+        .faq-item.active .faq-q-text {
+            color: var(--lime-green);
+        }
+
+        .faq-toggle {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            transition: transform 0.3s ease, color 0.3s ease;
+            line-height: 1;
+            margin-top: 1px;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+            color: var(--lime-green);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.3s ease;
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 400px;
+            opacity: 1;
+        }
+
+        .faq-answer p {
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0 0 0.75rem 2.25rem;
+            line-height: 1.7;
+        }
     </style>
 
     <!--
@@ -898,6 +1012,76 @@
                     <a href="https://twitter.com/marie" class="link-item">Twitter</a>
                 </div>
             </div>
+
+            <!-- FAQ -->
+            <div class="faq" id="faq">
+                <div class="faq-header">
+                    <span class="faq-label">// 04. System Queries</span>
+                    <h2>Frequently Asked</h2>
+                </div>
+                <div class="faq-list">
+                    <div class="faq-item" data-faq="1">
+                        <div class="faq-question">
+                            <span class="faq-index">01</span>
+                            <p class="faq-q-text">What does an AI transformation consultant for agencies actually do?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>I diagnose where AI creates real value in your agency's operations, design custom workflows that fit your team's reality, and implement systems that stick. The work spans strategy alignment with leadership, hands-on training for creative and commercial teams, and building automated pipelines for recurring tasks. The goal is operational autonomy, not tool adoption.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="2">
+                        <div class="faq-question">
+                            <span class="faq-index">02</span>
+                            <p class="faq-q-text">How is AI reshaping the creative agency business model?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Clients now expect faster delivery at lower cost. 58% of advertisers plan to reduce agency fees because of AI. Agencies that only sell production are becoming commodities. The agencies winning in 2026 sell strategic intelligence, proprietary systems, and the ability to orchestrate AI-augmented creative workflows their clients can't build alone.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="3">
+                        <div class="faq-question">
+                            <span class="faq-index">03</span>
+                            <p class="faq-q-text">What's the difference between AI training and AI transformation?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Training teaches tools. Transformation changes how work gets done. Most agencies have done a one-day ChatGPT workshop — six weeks later, everyone's back to old habits. Transformation means diagnosing workflows, building custom AI systems, training on real use cases, and following up until adoption is measurable. Training is a day. Transformation is a 2-month engagement with lasting impact.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="4">
+                        <div class="faq-question">
+                            <span class="faq-index">04</span>
+                            <p class="faq-q-text">What is an Intelligence Factory?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>An Intelligence Factory is a system that digitizes your agency's collective intelligence — client knowledge, creative processes, strategic frameworks — and makes it accessible to your team and their AI assistants. It combines automated performance monitoring, a knowledge wiki, and calibrated content generation relying on agency expertise. The result: your team produces faster without losing quality or brand consistency.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="5">
+                        <div class="faq-question">
+                            <span class="faq-index">05</span>
+                            <p class="faq-q-text">What is a Brand OS?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>A Brand OS is the operating infrastructure that lets marketing teams produce content quickly, accurately, and without waiting for an agency or internal expert for every deliverable. It centralizes brand memory, tone guidelines, and approved assets into a system that AI can access in real time. Teams become autonomous producers instead of permanent requesters.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item" data-faq="6">
+                        <div class="faq-question">
+                            <span class="faq-index">06</span>
+                            <p class="faq-q-text">How long does an AI transformation take for a creative agency?</p>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>A diagnostic takes 2 weeks. A first operational pilot runs 4 to 8 weeks. Full transformation with measurable adoption typically takes 3 to 6 months depending on team size and complexity. The approach is incremental: we start with one use case that delivers a visible before/after, then scale what works.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Right Panel - Memories -->
@@ -1158,6 +1342,19 @@
             document.querySelector('.container').style.height = '90vh';
             document.querySelector('.container').style.maxWidth = '1200px';
             document.querySelector('.container').style.maxHeight = window.innerHeight > window.innerWidth ? 'fit-content' : '900px';
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                const isActive = this.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(function(other) {
+                    other.classList.remove('active');
+                });
+                if (!isActive) {
+                    this.classList.add('active');
+                }
+            });
         });
     </script>
 </body>
